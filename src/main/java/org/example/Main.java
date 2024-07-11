@@ -26,7 +26,7 @@ public class Main {
             }
 
             System.out.print("Ingrese la cantidad a convertir: ");
-            cantidad = Double.parseDouble(lectura.nextLine());
+            cantidad = solicitarCantidad();
 
             switch (opcion) {
                 case "1":
@@ -82,5 +82,19 @@ public class Main {
         Scanner lectura = new Scanner(System.in);
         lectura.nextLine();
     }
+
+    private static double solicitarCantidad() {
+        Scanner lectura = new Scanner(System.in);
+        while (true) {
+            System.out.print("Ingrese la cantidad a convertir: ");
+            String input = lectura.nextLine();
+            try {
+                return Double.parseDouble(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Ingrese un valor numérico válido.");
+            }
+        }
+    }
+
 }
 
