@@ -1,32 +1,29 @@
 package org.example;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static JsonObject jsonObject;
+    static Scanner lectura = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner lectura = new Scanner(System.in);
         double resultado, cantidad = 0;
         String origen = "", destino = "";
-        List<String> opcionesValidas = Arrays.asList("1", "2", "3", "4", "5", "6", "7");
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        try (InputStream inputStream = classLoader.getResourceAsStream("codes.json")) {
+            jsonObject = JsonParser.parseReader(new InputStreamReader(Objects.requireNonNull(inputStream))).getAsJsonObject();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         while(true) {
             mostrarMenu();
             String opcion = lectura.nextLine();
-
-            if (!opcionesValidas.contains(opcion)) {
-                System.out.println("Seleccione una opción válida");
-                continuar();
-                continue;
-            }
-
-            if (opcion.equals("7")) {
-                break;
-            }
-
-            System.out.print("Ingrese la cantidad a convertir: ");
-            cantidad = solicitarCantidad();
 
             switch (opcion) {
                 case "1":
@@ -53,7 +50,18 @@ public class Main {
                     origen = "COP";
                     destino = "USD";
                     break;
+                case "7":
+                    mostrarDivisas();
+                    continue;
+                case "9":
+                    return;
+                default:
+                    System.out.println("\nSeleccione una opción válida");
+                    continuar();
+                    continue;
             }
+
+            cantidad = solicitarCantidad();
 
             resultado = Convertir.convertirMonedas(origen, destino, cantidad);
             System.out.println("El resultado es: " + resultado);
@@ -72,19 +80,19 @@ public class Main {
                 4.- Real Brasileño -> Dólar
                 5.- Dólar -> Peso Colombiano
                 6.- Peso Colombiano -> Dólar
-                7.- Salir
+                7.- Mostrar codigos de divisas
+                8.- Seleccionar otra divisa
+                9.- Salir
 
                 Seleccione una opción:\s""");
     }
 
     private static void continuar() {
-        System.out.println("\nPresione enter para continuar...");
-        Scanner lectura = new Scanner(System.in);
+        System.out.print("\nPresione enter para continuar...");
         lectura.nextLine();
     }
 
     private static double solicitarCantidad() {
-        Scanner lectura = new Scanner(System.in);
         while (true) {
             System.out.print("Ingrese la cantidad a convertir: ");
             String input = lectura.nextLine();
@@ -96,5 +104,18 @@ public class Main {
         }
     }
 
+    private static void mostrarDivisas() {
+        System.out.println(" _____________________________________________________________________________________");
+        System.out.printf("| %-7s | %-30s | %-40s | %n", "Código", "Nombre", "País");
+        System.out.println("|---------|--------------------------------|------------------------------------------|");
+
+        jsonObject.entrySet().forEach(entry -> {
+            String key = entry.getKey();
+            JsonObject value = entry.getValue().getAsJsonObject();
+            System.out.printf("|   %-5s | %-30s | %-40s |%n", key, value.get("Currency Name").getAsString(), value.get("Country").getAsString());
+        });
+
+        System.out.println("|_________|________________________________|__________________________________________|");
+    }
 }
 
