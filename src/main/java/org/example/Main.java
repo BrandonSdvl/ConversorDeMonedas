@@ -53,6 +53,10 @@ public class Main {
                 case "7":
                     mostrarDivisas();
                     continue;
+                case "8":
+                    origen = solicitarCodigo("origen");
+                    destino = solicitarCodigo("destino");
+                    break;
                 case "9":
                     return;
                 default:
@@ -64,7 +68,7 @@ public class Main {
             cantidad = solicitarCantidad();
 
             resultado = Convertir.convertirMonedas(origen, destino, cantidad);
-            System.out.println("El resultado es: " + resultado);
+            System.out.println("\n" + cantidad + " " + origen + " -> " + resultado + " " + destino);
             continuar();
         }
     }
@@ -100,6 +104,18 @@ public class Main {
                 return Double.parseDouble(input);
             } catch (NumberFormatException e) {
                 System.out.println("Ingrese un valor numérico válido.");
+            }
+        }
+    }
+
+    private static String solicitarCodigo(String tipo) {
+        while (true) {
+            System.out.print("Ingrese el codigo de la divisa de " + tipo + ": ");
+            String input = lectura.nextLine().toUpperCase();
+            if(jsonObject.get(input) != null) {
+                return input;
+            } else {
+                System.out.println("Este codigo de divisa no existe");
             }
         }
     }
