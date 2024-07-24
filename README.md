@@ -1,12 +1,13 @@
 # Conversor de Monedas
 
-Este proyecto es una aplicación de consola que permite convertir monedas utilizando una API externa para obtener los tipos de cambio actuales. La aplicación es interactiva y ofrece varias opciones de conversión entre diferentes monedas.
+Este proyecto es un conversor de divisas basado en Java que permite a los usuarios convertir entre diferentes monedas utilizando tasas de cambio obtenidas de la API de ExchangeRate-API. El proyecto utiliza la biblioteca Gson para leer y parsear un archivo JSON con los códigos de las divisas y sus detalles.
 
 ## Características
 
-- Conversión de moneda de Dólar a Peso Argentino, Real Brasileño, y Peso Colombiano, y viceversa.
-- Interfaz de usuario simple en la consola.
-- Validación de entrada para asegurar que el usuario ingrese valores numéricos válidos.
+- Conversión de divisas entre varias monedas utilizando una API externa.
+- Mostrar una lista de códigos de divisas disponibles.
+- Interfaz de consola simple y fácil de usar.
+- Lectura de archivos JSON utilizando Gson.
 
 ## Requisitos
 
@@ -14,13 +15,24 @@ Este proyecto es una aplicación de consola que permite convertir monedas utiliz
 - [Gson](https://github.com/google/gson) versión 2.10.1 o superior.
 - Una API-KEY de [ExchangeRate-API](https://www.exchangerate-api.com/).
 
+## Estructura del Proyecto
+
+El proyecto está organizado en las siguientes clases:
+
+1. **ConsumoAPI**: Clase para consumir la API externa y obtener datos.
+2. **Convertir**: Clase que contiene la lógica para convertir entre diferentes monedas utilizando una API externa.
+3. **JsonLoader**: Clase para cargar el archivo JSON con los códigos de las divisas.
+4. **Main**: Clase principal que inicializa el programa y maneja el menú principal.
+5. **Menu**: Clase que maneja la interacción del usuario y las opciones del menú.
+6. **Utils**: Clase con métodos auxiliares para mostrar mensajes, solicitar entradas del usuario y mostrar la lista de divisas.
+
 ## Configuración
 
 1. **Clonar el repositorio**:
 
     ```sh
     git clone https://github.com/BrandonSdvl/ConversorDeMonedas.git
-    cd conversor-de-monedas
+    cd ConversorDeMonedas
     ```
 
 2. **Configurar API-KEY**:
@@ -53,9 +65,11 @@ Bienvenido/a al conversor de monedas
 4.- Real Brasileño -> Dólar
 5.- Dólar -> Peso Colombiano
 6.- Peso Colombiano -> Dólar
-7.- Salir
+7.- Mostrar codigos de divisas
+8.- Seleccionar otra divisa
+9.- Salir
 
-Seleccione una opción: 
+Seleccione una opción:
 ```
 Después de seleccionar una opción válida y proporcionar la cantidad a convertir, la aplicación mostrará el resultado de la conversión.
 
